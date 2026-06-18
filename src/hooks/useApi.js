@@ -74,8 +74,32 @@ export function useQueryLogs(limit = 50) {
 /**
  * useMetrics — Fetches aggregated KPIs, refreshed every 60 seconds.
  */
-export function useMetrics(fallbackKpis) {
-  return useApi('/api/metrics', fallbackKpis, 60_000);
+export function useMetrics() {
+  const fallback = {
+    total_queries_today: 0,
+    avg_latency_ms: 0,
+    satisfaction_rate: 0,
+    faithfulness_score: 0,
+    queries_change: 0,
+    latency_change: 0,
+    satisfaction_change: 0,
+    faithfulness_change: 0,
+  };
+  return useApi('/api/metrics', fallback, 60_000);
+}
+
+export function useExperiments() {
+  return useApi('/api/experiments', [], 30_000);
+}
+
+export function usePipeline() {
+  const fallback = { current_stage: "idle", progress: 0, stages: [], history: [] };
+  return useApi('/api/pipeline', fallback, 15_000);
+}
+
+export function useEmbeddings() {
+  const fallback = { status: "idle", docs_indexed: 0, new_docs_pending: 0, history: [] };
+  return useApi('/api/embeddings', fallback, 30_000);
 }
 
 /**

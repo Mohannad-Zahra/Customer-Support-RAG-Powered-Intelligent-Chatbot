@@ -59,10 +59,10 @@ export function PerformancePanel({ timeline, kpis }) {
 
       {/* Current scores as gauges */}
       <div className="flex items-center justify-around mb-6 py-3 bg-[#080c14] rounded-xl border border-[#1e2d45] flex-wrap gap-4">
-        <GaugeCard label="Faithfulness" value={kpis.faithfulness_score} color="#10b981" />
-        <GaugeCard label="Satisfaction" value={kpis.satisfaction_rate} color="#3b82f6" />
-        <GaugeCard label="Ans. Relevancy" value={0.89} color="#8b5cf6" />
-        <GaugeCard label="Ctx. Precision" value={0.84} color="#06b6d4" />
+        <GaugeCard label="Faithfulness" value={kpis.faithfulness_score || 0} color="#10b981" />
+        <GaugeCard label="Satisfaction" value={kpis.satisfaction_rate || 0} color="#3b82f6" />
+        <GaugeCard label="Ans. Relevancy" value={kpis.ans_relevancy || 0} color="#8b5cf6" />
+        <GaugeCard label="Ctx. Precision" value={kpis.ctx_precision || 0} color="#06b6d4" />
       </div>
 
       {/* Trend chart */}
