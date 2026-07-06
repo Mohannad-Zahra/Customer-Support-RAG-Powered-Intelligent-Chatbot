@@ -48,7 +48,7 @@ function ExperimentRow({ exp, isSelected, onSelect }) {
             <div>
               <p className="text-[10px] text-[#4b5c78] uppercase tracking-widest font-semibold mb-2">Parameters</p>
               <div className="space-y-1.5">
-                {Object.entries(exp.params).map(([k, v]) => (
+                {Object.entries(exp.params ?? {}).map(([k, v]) => (
                   <div key={k} className="flex items-center justify-between">
                     <span className="text-xs text-[#8b9ab5]">{k}</span>
                     <code className="text-xs text-blue-300 bg-blue-500/10 px-1.5 py-0.5 rounded font-mono">{String(v)}</code>
