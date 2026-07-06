@@ -176,21 +176,7 @@ function Header({ clock, isOnline }) {
 }
 
 // ── Overview page (uses live data) ────────────────────────────────────────────
-function OverviewPage({ liveKpis, liveLogs, metricsError, logsError, metricsRefetch, logsRefetch, metricsUpdated }) {
-  // Merge live KPIs over mock defaults so missing fields don't crash
-  const kpis = { ...mockKPIs, ...(liveKpis ?? {}) };
-
-  // Build a performance timeline from hourly data if available
-  const timeline = liveKpis?.hourly_timeline?.length
-    ? liveKpis.hourly_timeline.map(h => ({
-        time:         h.hour,
-        faithfulness: kpis.faithfulness_score,
-        relevancy:    0.87,
-        latency:      Math.round(h.avg_latency),
-        satisfaction: kpis.satisfaction_rate,
-      }))
-    : mockPerformanceTimeline;
-
+function OverviewPage({ kpis, timeline, liveLogs, livePipeline, liveEmbeddings, metricsError, logsError, metricsRefetch, logsRefetch, metricsUpdated }) {
   const logs = liveLogs ?? [];
 
   return (
@@ -214,8 +200,8 @@ function OverviewPage({ liveKpis, liveLogs, metricsError, logsError, metricsRefe
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <PipelinePanel pipeline={mockPipelineStatus} />
-        <EmbeddingSchedulePanel schedule={mockEmbeddingSchedule} />
+        <PipelinePanel pipeline={livePipeline || {}} />
+        <EmbeddingSchedulePanel schedule={liveEmbeddings || {}} />
       </div>
     </div>
   );
@@ -260,8 +246,11 @@ export default function App() {
       case 'overview':
         return (
           <OverviewPage
-            liveKpis={liveKpis}
+            kpis={kpis}
+            timeline={timeline}
             liveLogs={liveLogs}
+            livePipeline={livePipeline}
+            liveEmbeddings={liveEmbeddings}
             metricsError={kpisError}
             logsError={logsError}
             metricsRefetch={kpisRefetch}
@@ -270,7 +259,7 @@ export default function App() {
           />
         );
       case 'experiments':
-        return <MLflowPanel experiments={mockExperiments} />;
+        return <MLflowPanel experiments={liveExperiments || []} />;
       case 'logs':
         return logsLoading && !liveLogs?.length
           ? <LoadingSkeleton />
@@ -281,11 +270,11 @@ export default function App() {
             </>
           );
       case 'performance':
-        return <PerformancePanel timeline={mockPerformanceTimeline} kpis={{ ...mockKPIs, ...(liveKpis ?? {}) }} />;
+        return <PerformancePanel timeline={timeline} kpis={kpis} />;
       case 'embeddings':
-        return <EmbeddingSchedulePanel schedule={mockEmbeddingSchedule} />;
+        return <EmbeddingSchedulePanel schedule={liveEmbeddings || {}} />;
       case 'pipeline':
-        return <PipelinePanel pipeline={mockPipelineStatus} />;
+        return <PipelinePanel pipeline={livePipeline || {}} />;
       default:
         return null;
     }
