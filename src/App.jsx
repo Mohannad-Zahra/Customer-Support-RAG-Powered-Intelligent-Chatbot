@@ -11,7 +11,7 @@ import { EmbeddingSchedulePanel } from './components/EmbeddingSchedulePanel';
 import { PerformancePanel } from './components/PerformancePanel';
 import { PipelinePanel } from './components/PipelinePanel';
 import { useLiveClock } from './hooks/useAnimations';
-import { useHealth, useQueryLogs, useMetrics } from './hooks/useApi';
+import { useHealth, useQueryLogs, useMetrics, useExperiments, usePipeline, useEmbeddings } from './hooks/useApi';
 
 
 const NAV_ITEMS = [
