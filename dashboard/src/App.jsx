@@ -237,7 +237,35 @@ export default function App() {
   // ── Live data hooks ──────────────────────────────────────────────────────────
   const { isOnline, model }                                       = useHealth(30_000);
   const { data: liveLogs,  loading: logsLoading,  error: logsError,  refetch: logsRefetch  } = useQueryLogs(50);
+<<<<<<< Updated upstream
   const { data: liveKpis,  loading: kpisLoading,  error: kpisError,  refetch: kpisRefetch, lastUpdated: metricsUpdated } = useMetrics(mockKPIs);
+=======
+  const { data: liveKpis,  loading: kpisLoading,  error: kpisError,  refetch: kpisRefetch, lastUpdated: metricsUpdated } = useMetrics();
+  const { data: liveExperiments } = useExperiments();
+  const { data: livePipeline } = usePipeline();
+  const { data: liveEmbeddings } = useEmbeddings();
+
+  const kpis = liveKpis || {
+    total_queries_today: 0,
+    avg_latency_ms: 0,
+    satisfaction_rate: 0,
+    faithfulness_score: 0,
+    queries_change: 0,
+    latency_change: 0,
+    satisfaction_change: 0,
+    faithfulness_change: 0,
+  };
+
+  const timeline = liveKpis?.hourly_timeline?.length
+    ? liveKpis.hourly_timeline.map(h => ({
+        time:         h.hour,
+        faithfulness: kpis.faithfulness_score || 0,
+        relevancy:    kpis.ans_relevancy || 0, 
+        latency:      Math.round(h.avg_latency || 0),
+        satisfaction: h.avg_satisfaction ?? (kpis.satisfaction_rate || 0),
+      }))
+    : [];
+>>>>>>> Stashed changes
 
   const renderPage = () => {
     switch (activePage) {

@@ -13,7 +13,11 @@ In Docker, mount a volume to persist it across container restarts.
 import sqlite3
 from contextlib import contextmanager
 
-DB_PATH = "rag_logs.db"
+import os
+
+# Create absolute path pointing to application/rag_logs.db
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(BASE_DIR, "rag_logs.db")
 
 # ── Schema ─────────────────────────────────────────────────────────────────────
 
@@ -98,7 +102,7 @@ def get_recent_logs(limit: int = 50) -> list[dict]:
         rows = conn.execute(
             """
             SELECT id, timestamp, user_input, answer,
-                   chunks_used, latency_ms, model, rating
+                   chunks_used AS retrieved_chunks, latency_ms, model, rating
             FROM   query_logs
             ORDER  BY id DESC
             LIMIT  ?
@@ -150,7 +154,9 @@ def get_metrics() -> dict:
             """
             SELECT strftime('%H:00', timestamp) AS hour,
                    COUNT(*)                     AS queries,
-                   AVG(latency_ms)              AS avg_latency
+                   AVG(latency_ms)              AS avg_latency,
+                   (CAST(COUNT(CASE WHEN rating='positive' THEN 1 END) AS FLOAT) / 
+                    NULLIF(COUNT(CASE WHEN rating != 'none' THEN 1 END), 0)) AS avg_satisfaction
             FROM   query_logs
             WHERE  timestamp >= datetime('now', '-7 hours')
             GROUP  BY hour
@@ -167,7 +173,13 @@ def get_metrics() -> dict:
         "queries_change": 0,
         "latency_change": 0,
         "satisfaction_change": 0,
+<<<<<<< Updated upstream
         "faithfulness_score": 0.91,  # placeholder until RAGAS pipeline writes here
+=======
+        "faithfulness_score": 0,    # placeholder until RAGAS pipeline writes here
+>>>>>>> Stashed changes
         "faithfulness_change": 0,
+        "ans_relevancy": 0,          # placeholder until RAGAS pipeline writes here
+        "ctx_precision": 0,          # placeholder until RAGAS pipeline writes here
         "hourly_timeline": [dict(r) for r in hourly],
     }
