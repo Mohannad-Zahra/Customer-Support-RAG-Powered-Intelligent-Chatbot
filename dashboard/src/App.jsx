@@ -13,14 +13,6 @@ import { PipelinePanel } from './components/PipelinePanel';
 import { useLiveClock } from './hooks/useAnimations';
 import { useHealth, useQueryLogs, useMetrics } from './hooks/useApi';
 
-// ── Mock fallbacks (shown when API is unreachable) ─────────────────────────────
-import {
-  mockExperiments,
-  mockEmbeddingSchedule,
-  mockPipelineStatus,
-  mockPerformanceTimeline,
-  mockKPIs,
-} from './data/mockData';
 
 const NAV_ITEMS = [
   { id: 'overview',    label: 'Overview',    icon: <Activity size={15} /> },
