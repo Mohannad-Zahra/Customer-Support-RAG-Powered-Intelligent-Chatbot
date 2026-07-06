@@ -237,9 +237,6 @@ export default function App() {
   // ── Live data hooks ──────────────────────────────────────────────────────────
   const { isOnline, model }                                       = useHealth(30_000);
   const { data: liveLogs,  loading: logsLoading,  error: logsError,  refetch: logsRefetch  } = useQueryLogs(50);
-<<<<<<< Updated upstream
-  const { data: liveKpis,  loading: kpisLoading,  error: kpisError,  refetch: kpisRefetch, lastUpdated: metricsUpdated } = useMetrics(mockKPIs);
-=======
   const { data: liveKpis,  loading: kpisLoading,  error: kpisError,  refetch: kpisRefetch, lastUpdated: metricsUpdated } = useMetrics();
   const { data: liveExperiments } = useExperiments();
   const { data: livePipeline } = usePipeline();
@@ -265,7 +262,6 @@ export default function App() {
         satisfaction: h.avg_satisfaction ?? (kpis.satisfaction_rate || 0),
       }))
     : [];
->>>>>>> Stashed changes
 
   const renderPage = () => {
     switch (activePage) {
