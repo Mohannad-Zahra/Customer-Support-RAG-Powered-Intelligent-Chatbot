@@ -173,11 +173,7 @@ def get_metrics() -> dict:
         "queries_change": 0,
         "latency_change": 0,
         "satisfaction_change": 0,
-<<<<<<< Updated upstream
-        "faithfulness_score": 0.91,  # placeholder until RAGAS pipeline writes here
-=======
         "faithfulness_score": 0,    # placeholder until RAGAS pipeline writes here
->>>>>>> Stashed changes
         "faithfulness_change": 0,
         "ans_relevancy": 0,          # placeholder until RAGAS pipeline writes here
         "ctx_precision": 0,          # placeholder until RAGAS pipeline writes here

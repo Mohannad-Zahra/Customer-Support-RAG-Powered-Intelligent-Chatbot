@@ -168,8 +168,7 @@ def api_rate():
 
     set_rating(log_id, rating)
     return jsonify({"ok": True})
-<<<<<<< Updated upstream
-=======
+
 
 
 @app.route("/api/experiments")
@@ -310,4 +309,3 @@ def api_embeddings():
             }
         ]
     })
->>>>>>> Stashed changes
