@@ -52,15 +52,17 @@ export function useLiveClock() {
 
 // Format helpers
 export function formatTime(isoString) {
+  if (!isoString) return '--';
   return new Date(isoString).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
 
 export function formatDate(isoString) {
+  if (!isoString) return '--';
   return new Date(isoString).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
 export function formatDateTime(isoString) {
-  const d = new Date(isoString);
+  if (!isoString) return '--';
   return `${formatDate(isoString)} ${formatTime(isoString)}`;
 }
 
