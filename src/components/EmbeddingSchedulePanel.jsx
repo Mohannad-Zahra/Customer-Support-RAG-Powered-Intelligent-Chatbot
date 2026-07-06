@@ -41,8 +41,8 @@ export function EmbeddingSchedulePanel({ schedule }) {
   const animPending = useCountUp(inView ? schedule.new_docs_pending : 0, 1200);
 
   const now = new Date();
-  const next = new Date(schedule.next_refresh);
-  const hoursUntil = ((next - now) / 3600000).toFixed(1);
+  const next = schedule.next_refresh ? new Date(schedule.next_refresh) : null;
+  const hoursUntil = next ? ((next - now) / 3600000).toFixed(1) : "0.0";
 
   return (
     <section className="glass-card rounded-2xl p-5" aria-label="Embedding Refresh Schedule" ref={ref}>
